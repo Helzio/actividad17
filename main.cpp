@@ -59,7 +59,7 @@ int main()
             break;
         case 5:
             cout << endl
-                 << "*** Obtener la primer civilización ***" << endl;
+                 << "*** Obtener la primera civilización ***" << endl;
                  videogame.primeraCivilizacion();
             break;
         case 6:

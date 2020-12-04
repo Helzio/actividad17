@@ -2,7 +2,10 @@
 #define CIVILIZACION
 
 #include <iostream>
+#include <fstream>
 #include <iomanip>
+#include <list>
+#include "aldeano.h"
 
 using namespace std;
 
@@ -13,7 +16,16 @@ private:
     int x;
     int y;
     int puntuacion;
+    list<Aldeano> aldeanos;
 
+
+    void eliminarAldeanoPorNombre(const string &);
+    void eliminarAldeanosPorSalud(int);
+    void eliminarAldeanosPorEdad();
+
+    void ordenarAldeanosPorNombre();
+    void ordenarAldeanosPorSalud();
+    void ordenarAldeanosPorEdad();
 public:
     Civilizacion();
     Civilizacion(const string &nombre, int x, int y, int puntuacion);
@@ -22,13 +34,25 @@ public:
     int getX();
     int getY();
     int getPuntuacion();
+    list<Aldeano> getAldeanos();
 
     void setNombre(const string &);
     void setX(int);
     void setY(int);
     void setPuntuacion(int);
 
+    void agregarAldeano();
+    void agregarAldeanoInicio(const Aldeano &);
+    void agregarAldeanoFinal(const Aldeano &);
+    void eliminarAldeanos();
+    void clasificarAldeanos();
+    void buscarAldeano();
+    void modificarAldeano();
+
+    void mostrarAldeanos();
     string toString();
+
+    void guardarCivilizacion(const string&);
 
     friend ostream &operator<<(ostream &out, const Civilizacion &c)
     {

@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include "civilizacion.h"
+#include "aldeano.h"
 
 
 class Videogame
@@ -59,6 +60,7 @@ public:
 
     // opcion 13
     void cargar();
+
 
 };
 

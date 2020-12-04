@@ -93,6 +93,12 @@ void Videogame::primeraCivilizacion()
     if (civilizaciones.size() > 0)
     {
         cout << "Primera civilización: " << endl;
+        // encabezado
+        cout << left;
+        cout << setw(17) << "Nombre:";
+        cout << setw(17) << "Pos X:";
+        cout << setw(17) << "Pos Y:";
+        cout << setw(17) << "Score:" << endl;
         cout << civilizaciones.front() << endl;
     }
     else
@@ -107,6 +113,12 @@ void Videogame::ultimaCivilizacion()
     if (civilizaciones.size() > 0)
     {
         cout << "Última civilización: " << endl;
+        // encabezado
+        cout << left;
+        cout << setw(17) << "Nombre:";
+        cout << setw(17) << "Pos X:";
+        cout << setw(17) << "Pos Y:";
+        cout << setw(17) << "Score:" << endl;
         cout << civilizaciones.back() << endl;
     }
     else
@@ -252,16 +264,101 @@ void Videogame::buscarCivilizacion()
         auto resultado = find(civilizaciones.begin(), civilizaciones.end(), nombre);
         if (resultado != civilizaciones.end())
         {
+
+            Civilizacion &c = *resultado;
+            int opcion;
+            bool repetir = true;
+
             cout << endl
-                     << "*** Civilizacion encontrada ***" << endl;
-                // encabezado
-                cout << left;
-                cout << setw(17) << "Nombre:";
-                cout << setw(17) << "Pos X:";
-                cout << setw(17) << "Pos Y:";
-                cout << setw(17) << "Score:"<< endl;
-                cout << *resultado << endl
-                << endl;
+                 << "*** Civilización encontrada ***" << endl;
+            // encabezado
+            cout << left;
+            cout << setw(17) << "Nombre:";
+            cout << setw(17) << "Pos X:";
+            cout << setw(17) << "Pos Y:";
+            cout << setw(17) << "Score:" << endl;
+            cout << *resultado << endl
+                 << endl;
+
+            while (repetir)
+            {
+                cout << endl
+                     << "*** Menú de la civilización: " << c.getNombre() << " ***" << endl;
+
+                cout << "1) Agregar aldeano." << endl;
+                cout << "2) Eliminar aldeano." << endl;
+                cout << "3) Clasificar aldeanos." << endl;
+                cout << "4) Buscar aldeano." << endl;
+                cout << "5) Modificar aldeano." << endl;
+                cout << "6) Mostrar aldeanos." << endl;
+                cout << "0) Salir" << endl;
+                cout << "Introduce una opción: ";
+                cin >> opcion;
+                cin.ignore();
+
+                switch (opcion)
+                {
+                case 1:
+                    c.agregarAldeano();
+                    break;
+                case 2:
+                    if (resultado->getAldeanos().size() == 0)
+                    {
+                        cout << "La lista de aldeanos de esta civilización esta vacía." << endl;
+                    }
+                    else
+                    {
+                        c.eliminarAldeanos();
+                    }
+                    break;
+                case 3:
+                    if (resultado->getAldeanos().size() == 0)
+                    {
+                        cout << "La lista de aldeanos de esta civilización esta vacía." << endl;
+                    }
+                    else
+                    {
+                        c.clasificarAldeanos();
+                    }
+                    break;
+                case 4:
+                    if (resultado->getAldeanos().size() == 0)
+                    {
+                        cout << "La lista de aldeanos de esta civilización esta vacía." << endl;
+                    }
+                    else
+                    {
+                        c.buscarAldeano();
+                    }
+                    break;
+                case 5:
+                    if (resultado->getAldeanos().size() == 0)
+                    {
+                        cout << "La lista de aldeanos de esta civilización esta vacía." << endl;
+                    }
+                    else
+                    {
+                        c.modificarAldeano();
+                    }
+                    break;
+                    break;
+                case 6:
+                    if (resultado->getAldeanos().size() == 0)
+                    {
+                        cout << "La lista de aldeanos de esta civilización esta vacía." << endl;
+                    }
+                    else
+                    {
+                        c.mostrarAldeanos();
+                    }
+                    break;
+                default:
+                    cout << endl
+                         << "Saliendo." << endl;
+                    repetir = false;
+                    break;
+                }
+            }
         }
 
         else
@@ -297,15 +394,16 @@ void Videogame::modificarCivilizacion()
             while (repetir)
             {
                 cout << endl
+                     << endl
                      << "*** Civilizacion encontrada ***" << endl;
                 // encabezado
                 cout << left;
                 cout << setw(17) << "Nombre:";
                 cout << setw(17) << "Pos X:";
                 cout << setw(17) << "Pos Y:";
-                cout << setw(17) << "Score:"<< endl;
+                cout << setw(17) << "Score:" << endl;
                 cout << *resultado << endl
-                << endl;
+                     << endl;
                 cout << "1) Modificar nombre" << endl;
                 cout << "2) Modificar ubicación en X" << endl;
                 cout << "3) Modificar ubicación en Y" << endl;
@@ -413,6 +511,7 @@ void Videogame::guardar()
         return;
     }
 
+    cout << "Guardando..." << endl;
     string nombreArchivo = nombreUsuario + ".txt";
     ofstream archivo(nombreArchivo);
     if (archivo.is_open())
@@ -424,6 +523,8 @@ void Videogame::guardar()
             archivo << to_string(civilizaciones[i].getX()) << endl;
             archivo << to_string(civilizaciones[i].getY()) << endl;
             archivo << to_string(civilizaciones[i].getPuntuacion()) << endl;
+            civilizaciones[i].guardarCivilizacion(nombreUsuario);
+            cout << "Guardando... " << (i + 1) << " de " << civilizaciones.size() << endl;
         }
 
         cout << "El juego ha sido guardado correctamente." << endl;
@@ -466,6 +567,38 @@ void Videogame::cargar()
 
             civilizaciones.push_back(c);
         }
+
+        for (size_t i = 0; i < civilizaciones.size(); i++)
+        {
+            string nombreArchivoCiv = nombreUsuario + "-" + civilizaciones[i].getNombre() + ".txt";
+            ifstream archivoCiv(nombreArchivoCiv);
+
+            if (archivoCiv.is_open())
+            {
+                civilizaciones[i].getAldeanos().clear();
+                string linea;
+                Aldeano a;
+                while (true)
+                {
+                    getline(archivoCiv, linea); // Nombre
+                    if (archivoCiv.eof())
+                        break;
+                    a.setNombre(linea);
+
+                    getline(archivoCiv, linea); // EDAD
+                    a.setEdad(stoi(linea));
+
+                    getline(archivoCiv, linea); // GENERO
+                    a.setGenero(stoi(linea));
+
+                    getline(archivoCiv, linea); // SALUD
+                    a.setSalud(stoi(linea));
+
+                    civilizaciones[i].agregarAldeanoFinal(a);
+                }
+            }
+        }
+
         cout << "El juego ha sido cargado correctamente." << endl;
         resumen();
     }

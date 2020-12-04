@@ -1,3 +1,7 @@
+Japoneses
+15
+15
+500
 Teutones
 13
 1
@@ -5,7 +9,7 @@ Teutones
 Mayas
 3
 3
-300
+600
 Vikingos
 9
 5
@@ -18,3 +22,7 @@ Hunos
 7
 3
 313
+Chinos
+13
+13
+100
