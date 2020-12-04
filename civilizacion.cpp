@@ -440,3 +440,201 @@ void Civilizacion::guardarCivilizacion(const string &n)
         archivoCiv.close();
     }
 }
+
+void Civilizacion::agregarBarco()
+{
+
+    cout << endl
+         << "*** Agregar barco ***" << endl;
+    Barco *b = new Barco();
+    cin >> *b;
+    puerto.push_back(b);
+    cout
+         << "Barco agregado correctamente." << endl;
+}
+
+void Civilizacion::mostrarBarcos()
+{
+    if (puerto.size() > 0)
+    {
+        cout << endl
+             << "*** Barcos ***" << endl;
+
+        // encabezado
+        cout << left;
+        cout << setw(17) << "Id:";
+        cout << setw(17) << "Combustible:";
+        cout << setw(17) << "Velocidad:";
+        cout << setw(17) << "Armadura:";
+        cout << setw(17) << "No. Guerreros:" << endl;
+
+        for (auto i = puerto.begin(); i != puerto.end(); i++)
+        {
+            cout << **i << endl;
+        }
+    }
+    else
+    {
+        cout << "El puerto esta vació." << endl;
+    }
+}
+
+void Civilizacion::buscarBarco()
+{
+    if (puerto.size() > 0)
+    {
+        bool encontrado = false;
+        int id;
+        cout << endl
+             << "Introduce el id del barco que deseas encontrar:" << endl;
+        cout << "Id: ";
+        cin >> id;
+        cin.ignore();
+
+        for (auto const &b : puerto)
+        {
+            if (b->getId() == id)
+            {
+                encontrado = true;
+
+                cout << endl
+                     << "*** Barco encontrado ***" << endl;
+                // encabezado
+                cout << left;
+                cout << setw(17) << "Id:";
+                cout << setw(17) << "Combustible:";
+                cout << setw(17) << "Velocidad:";
+                cout << setw(17) << "Armadura:" << endl;
+                cout << *b << endl
+                     << endl;
+
+                bool repetir = true;
+                int opcion;
+                while (repetir)
+                {
+                    cout << endl
+                         << "*** Menú del barco ***" << endl;
+
+                    cout << "1) Agregar guerrero." << endl;
+                    cout << "2) Eliminar guerrero." << endl;
+                    cout << "3) Mostrar último guerrero." << endl;
+                    cout << "4) Mostrar todos los guerreros." << endl;
+                    cout << "0) Salir" << endl;
+                    cout << "Introduce una opción: ";
+                    cin >> opcion;
+                    cin.ignore();
+
+                    switch (opcion)
+                    {
+                    case 1:
+                        b->agregarGuerrero();
+                        break;
+                    case 2:
+                        b->eliminarGuerrero();
+                        break;
+                    case 3:
+                        b->obtenerGuerrero();
+                        break;
+                    case 4:
+                        b->mostrarGuerreros();
+                        break;
+                    default:
+                        cout << endl
+                             << "Saliendo." << endl;
+                        repetir = false;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
+        if (!encontrado)
+        {
+            cout << "No se encontro ningun barco con el id: " << id << "." << endl;
+        }
+    }
+    else
+    {
+        cout << "El puerto esta vació." << endl;
+    }
+}
+
+void Civilizacion::eliminarBarco()
+{
+    int id;
+    int combustible;
+    bool salir = false;
+    int opcion;
+
+    while (!salir)
+    {
+        cout << endl << "*** Eliminar barco ***" << endl;
+        cout << "1- Eliminar por id. " << endl;
+        cout << "2- Eliminar por combustible. " << endl;
+        cout << "0- Salir. " << endl;
+
+        cout << "Introduce una opción: ";
+        cin >> opcion;
+        cin.ignore();
+
+        if (opcion == 1)
+        {
+            cout << "Id del barco a eliminar: ";
+            cin >> id;
+            cin.ignore();
+            eliminarBarcoPorId(id);
+            salir = true;
+            mostrarBarcos();
+        }
+        else if (opcion == 2)
+        {
+            cout << "Eliminar barcos con combustible menor a: " << endl;
+            cout << "Combustible: ";
+            cin >> combustible;
+            eliminarBarcosPorCombustible(combustible);
+            salir = true;
+            mostrarBarcos();
+        }
+        else
+        {
+            salir = true;
+            cout << "Saliendo..." << endl
+                 << endl;
+        }
+    }
+}
+
+void Civilizacion::eliminarBarcoPorId(int id)
+{
+    puerto.remove_if([id](Barco *b) {
+        if (b->getCombustible() == id)
+        {
+            delete b;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+cout << "Se ha eliminado el barcos correctamente." << endl << endl;
+
+}
+
+void Civilizacion::eliminarBarcosPorCombustible(int combustible)
+{
+    puerto.remove_if([combustible](Barco *b) {
+        if (b->getCombustible() < combustible)
+        {
+            delete b;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    cout << "Se han eliminado los barcos correctamente." << endl << endl;
+}

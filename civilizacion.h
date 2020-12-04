@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <list>
 #include "aldeano.h"
+#include "barco.h"
 
 using namespace std;
 
@@ -17,6 +18,7 @@ private:
     int y;
     int puntuacion;
     list<Aldeano> aldeanos;
+    list<Barco*> puerto;
 
 
     void eliminarAldeanoPorNombre(const string &);
@@ -51,6 +53,13 @@ public:
 
     void mostrarAldeanos();
     string toString();
+
+    void agregarBarco();
+    void mostrarBarcos();
+    void buscarBarco();
+    void eliminarBarco();
+    void eliminarBarcoPorId(int id);
+    void eliminarBarcosPorCombustible(int combustible);
 
     void guardarCivilizacion(const string&);
 

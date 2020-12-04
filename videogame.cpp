@@ -291,6 +291,11 @@ void Videogame::buscarCivilizacion()
                 cout << "4) Buscar aldeano." << endl;
                 cout << "5) Modificar aldeano." << endl;
                 cout << "6) Mostrar aldeanos." << endl;
+                cout << "*** Barcos ***" << endl;
+                cout << "7) Agregar barco." << endl;
+                cout << "8) Mostrar barcos." << endl;
+                cout << "9) Buscar barco." << endl;
+                cout << "10) Eliminar barco." << endl;
                 cout << "0) Salir" << endl;
                 cout << "Introduce una opción: ";
                 cin >> opcion;
@@ -351,6 +356,18 @@ void Videogame::buscarCivilizacion()
                     {
                         c.mostrarAldeanos();
                     }
+                    break;
+                case 7:
+                    c.agregarBarco();
+                    break;
+                case 8:
+                    c.mostrarBarcos();
+                    break;
+                case 9:
+                    c.buscarBarco();
+                    break;
+                case 10:
+                    c.eliminarBarco();
                     break;
                 default:
                     cout << endl

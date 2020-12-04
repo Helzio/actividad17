@@ -2,14 +2,6 @@ Gohan
 30
 0
 900
-Goku
-300
-0
-9999
-Vegueta
-313
-0
-900
 Trunks
 17
 0
